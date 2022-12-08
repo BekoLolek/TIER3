@@ -18,23 +18,35 @@ public class ClientLogic : IClientLogic
 
     public async Task<Client> createClientAccount(Client c)
     {
-        throw new NotImplementedException();
+        await context.Clients.AddAsync(c);
+        return c;
     }
 
-    public Task<Client?> getClientById(int id)
+    public async Task<Client?> getClientById(int id)
     {
-        throw new NotImplementedException();
+        Client c = await context.Clients.FindAsync(id);
+        return c;
     }
 
-    public Task<Client> registerClient(Client client)
+    public async Task<Client> registerClient(Client client)
     {
-        throw new NotImplementedException();
+        await context.AddAsync(client);
+        return client;
     }
 
 
-    public Task<Client> deleteClientAccount(Client client)
+    public async Task<Client> deleteClientAccount(Client client)
     {
-        throw new NotImplementedException();
+
+        Client? existing = await getClientById(client.Id);
+        if (existing == null)
+        {
+            //nothing
+        }
+        context.Remove(client);
+        return client;
+
+
     }
 
 

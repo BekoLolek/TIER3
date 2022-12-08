@@ -8,6 +8,7 @@ namespace Db3.Networking.Manager;
 public class ServerManager
 {
     private Models.Manager.Manager manager;
+    private Models.Client.Client client;
     private ManagerLogic _managerLogic;
 
     public ServerManager()
@@ -39,8 +40,8 @@ public class ServerManager
         string phonenumber = test.phonenumber;
         int Id = test.Id;
         Models.Client.Client cl = new Models.Client.Client(Id,username,name,password,email,dob,phonenumber);
-        manager =  await _managerLogic.addClient(cl);
-        string reply = JsonSerializer.Serialize(manager);
+        client =  await _managerLogic.addClient(cl);
+        string reply = JsonSerializer.Serialize(client);
         byte[] bytesWrite = Encoding.ASCII.GetBytes(reply);
         stream.Write(bytesWrite, 0, bytesWrite.Length);
     }
@@ -48,8 +49,8 @@ public class ServerManager
     public async void DeleteClient(NetworkStream stream, string content)
     {
         Models.Client.Client test = JsonSerializer.Deserialize<Models.Client.Client>(content);
-        await _managerLogic.deleteClient(int.Parse(content));
-        string reply = JsonSerializer.Serialize(manager);
+        client = await _managerLogic.deleteClient(int.Parse(content));
+        string reply = JsonSerializer.Serialize(client);
         byte[] bytesWrite = Encoding.ASCII.GetBytes(reply);
         stream.Write(bytesWrite, 0, bytesWrite.Length);
     }
@@ -65,8 +66,8 @@ public class ServerManager
         string phonenumber = test.phonenumber;
         int Id = test.Id;
         Models.Client.Client c = new Models.Client.Client(Id, username, name, password, email, dob, phonenumber);
-        await _managerLogic.editClient(c);
-        string reply = JsonSerializer.Serialize(manager);
+        client = await _managerLogic.editClient(c);
+        string reply = JsonSerializer.Serialize(client);
         byte[] bytesWrite = Encoding.ASCII.GetBytes(reply);
         stream.Write(bytesWrite, 0, bytesWrite.Length);
     }

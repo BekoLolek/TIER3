@@ -7,9 +7,9 @@ public interface IManagerLogic
 {
     Task<Manager> getManagerById(int id);
     Task<Manager>? getManagerByUsername(string content);
-    Task<Manager> addClient(Client client);
-    Task<Manager> deleteClient(int id);
-    Task<Manager> editClient(Client client);
+    Task<Client> addClient(Client client);
+    Task<Client> deleteClient(int id);
+    Task<Client> editClient(Client client);
     Task<Manager> deleteManager(int id);
     
 }

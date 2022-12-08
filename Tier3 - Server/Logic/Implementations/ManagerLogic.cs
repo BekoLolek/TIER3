@@ -1,34 +1,49 @@
 using Db3.Models.Client;
 using Db3.Models.Manager;
+using Microsoft.EntityFrameworkCore;
 using Tier3___Server.Logic;
 
 namespace Tier3___Server.Implementations;
 
 public class ManagerLogic : IManagerLogic
 {
-    public Task<Manager> getManagerById(int id)
+    private readonly DataContext context;
+    
+    public async Task<Manager> getManagerById(int id)
     {
-        throw new NotImplementedException();
+        Manager manager = await context.Managers.FindAsync(id);
+        return manager;
     }
 
-    public Task<Manager>? getManagerByUsername(string content)
+    public async Task<Manager>? getManagerByUsername(string content)
     {
-        throw new NotImplementedException();
+        Manager manager = await context.Managers.FindAsync(content);
+        return manager;
     }
 
-    public Task<Manager> addClient(Client client)
+    public async Task<Client> addClient(Client client)
     {
-        throw new NotImplementedException();
+        await context.Clients.AddAsync(client);
+        return client;
     }
 
-    public Task<Manager> deleteClient(int id)
+    public async Task<Client> deleteClient(int id)
     {
-        throw new NotImplementedException();
+        Client? existing = await context.Clients.FindAsync(id);
+        if (existing == null)
+        {
+            //nothing
+        }
+        context.Remove(existing);
+        return existing;
     }
 
-    public Task<Manager> editClient(Client client)
+    public async Task<Client> editClient(Client client)
     {
-        throw new NotImplementedException();
+        Client c = await context.Clients.FindAsync(client.Id);
+        context.Clients.Remove(c);
+        context.Clients.AddAsync(client);
+        return client;
     }
 
     public Task<Manager> deleteManager(int id)
